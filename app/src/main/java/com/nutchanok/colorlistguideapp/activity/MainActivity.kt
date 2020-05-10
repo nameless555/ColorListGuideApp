@@ -9,135 +9,68 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.tabs.TabLayout
 import com.nutchanok.colorlistguideapp.R
 import com.nutchanok.colorlistguideapp.adapters.ColorAdapter
 import com.nutchanok.colorlistguideapp.adapters.FavouriteAdapter
+import com.nutchanok.colorlistguideapp.fragments.FavFragment
+import com.nutchanok.colorlistguideapp.fragments.ListFragment
 import com.nutchanok.colorlistguideapp.models.ListColor
 import com.nutchanok.colorlistguideapp.models.ListColorResponse
 import com.nutchanok.colorlistguideapp.services.MainPresenter
 import com.nutchanok.colorlistguideapp.views.MainView
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), MainView, View.OnClickListener {
-
-    private val presenter: MainPresenter = MainPresenter(this)
-    var datalth: List<ListColor>? = null
-    var datahtl: List<ListColor>? = null
-    var b1 = 1
+class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        presenter.getListColor()
-        btnlist.setOnClickListener(this)
-        btnFavourite.setOnClickListener(this)
-    }
-
-    override fun setUserColor(listColorResponse: ListColorResponse) {
-
-
-        var i: List<ListColor> = listColorResponse.data
-        datahtl = i.sortedByDescending { it.year }
-        datalth = i.sortedBy { it.year }
-
-
-
-        recyclerView.layoutManager = LinearLayoutManager(
-            applicationContext,
-            LinearLayoutManager.VERTICAL, //แนว
-            false
-        )
-
-        recyclerView.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
-
-        recyclerView.adapter = ColorAdapter(listColorResponse.data, application)
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.lth -> {// About option clicked.}
-
-                recyclerView.layoutManager = LinearLayoutManager(
-                    applicationContext,
-                    LinearLayoutManager.VERTICAL, //แนว
-                    false
-                )
-
-                recyclerView.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
-
-                if (b1 == 1) {
-                    recyclerView.adapter = ColorAdapter(datalth!!, application)
-
-                } else {
-                    recyclerView.adapter = FavouriteAdapter(datalth!!, application)
-
-                }
-                true
-
-            }
-            R.id.htl -> {
-                recyclerView.layoutManager = LinearLayoutManager(
-                    applicationContext,
-                    LinearLayoutManager.VERTICAL, //แนว
-                    false
-                )
-
-                recyclerView.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
-
-                if (b1 == 1) {
-                    recyclerView.adapter = ColorAdapter(datahtl!!, application)
-
-                } else {
-                    recyclerView.adapter = FavouriteAdapter(datalth!!, application)
-
-                }
-                true
-            }
-            else -> {
-                false
-            }
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.contentContainer, ListFragment())
+                .commit()
         }
-    }
 
+        val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
 
-    override fun onClick(v: View?) {
+        tabLayout.addTab(tabLayout.newTab().setText("List"))
+        tabLayout.addTab(tabLayout.newTab().setText("Fav"))
+        tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
-        when (v!!.id) {
-            btnlist.id -> {
-                b1 = 1
-                recyclerView.layoutManager = LinearLayoutManager(
-                    applicationContext,
-                    LinearLayoutManager.VERTICAL, //แนว
-                    false
-                )
+        tabLayout.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
 
-                recyclerView.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
-                recyclerView.adapter = ColorAdapter(datalth!!, application)
+                when (tab) {
+                    tabLayout.getTabAt(0) -> {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.contentContainer, ListFragment())
+                            .addToBackStack(null)
+                            .commit()
+
+                        tabLayout.getTabAt(0)!!.text = "List"
+                    }
+                    tabLayout.getTabAt(1) -> {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.contentContainer, FavFragment())
+                            .addToBackStack(null)
+                            .commit()
+                        tabLayout.getTabAt(1)!!.text = "Fav"
+                    }
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
 
             }
-            btnFavourite.id -> {
 
-
-                b1 = 0
-                recyclerView.layoutManager = LinearLayoutManager(
-                    applicationContext,
-                    LinearLayoutManager.VERTICAL, //แนว
-                    false
-                )
-
-                recyclerView.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
-                recyclerView.adapter = FavouriteAdapter(datalth!!, application)
+            override fun onTabReselected(tab: TabLayout.Tab) {
 
             }
-        }
+        })
+
     }
 
 

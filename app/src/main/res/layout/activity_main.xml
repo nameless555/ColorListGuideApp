@@ -6,37 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+
+    <FrameLayout
+        android:id="@+id/contentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/llbut"
-        android:layout_margin="8dp">
+        android:layout_above="@id/tab_layout" />
 
-    </androidx.recyclerview.widget.RecyclerView>
 
-    <LinearLayout
-        android:id="@+id/llbut"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
+
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:layout_centerHorizontal="true"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize" />
 
-        <Button
-            android:id="@+id/btnlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="list" />
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/recyclerView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_above="@+id/llbut"-->
+    <!--        android:layout_margin="8dp">-->
 
-        <Button
-            android:id="@+id/btnFavourite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="favourite" />
+    <!--    </androidx.recyclerview.widget.RecyclerView>-->
 
-    </LinearLayout>
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/llbut"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:weightSum="2">-->
+
+    <!--        <Button-->
+    <!--            android:id="@+id/btnlist"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:text="list" />-->
+
+    <!--        <Button-->
+    <!--            android:id="@+id/btnFavourite"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:text="favourite" />-->
+
+    <!--    </LinearLayout>-->
+
 
 </RelativeLayout>
