@@ -10,11 +10,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.nutchanok.colorlistguideapp.R
+import com.nutchanok.colorlistguideapp.models.FavColor
 import com.nutchanok.colorlistguideapp.models.ListColor
 import kotlinx.android.synthetic.main.list_user_color.view.*
 
 
-class FavouriteAdapter(private val items: List<ListColor>, val context: Context) :
+class FavouriteAdapter(private val items: ArrayList<FavColor>, val context: Context) :
     RecyclerView.Adapter<FavouriteAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

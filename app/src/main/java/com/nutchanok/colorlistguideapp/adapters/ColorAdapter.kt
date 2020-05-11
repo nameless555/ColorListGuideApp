@@ -2,20 +2,23 @@ package com.nutchanok.colorlistguideapp.adapters
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.nutchanok.colorlistguideapp.R
-import com.nutchanok.colorlistguideapp.models.ListColor
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.nutchanok.colorlistguideapp.R
+import com.nutchanok.colorlistguideapp.fragments.FavFragment
+import com.nutchanok.colorlistguideapp.models.ListColor
+import com.nutchanok.colorlistguideapp.models.ListFavourite
 import kotlinx.android.synthetic.main.list_user_color.view.*
+
 
 class ColorAdapter(private val items: List<ListColor>, private val context: Context) :
     RecyclerView.Adapter<ColorAdapter.ViewHolder>() {
@@ -56,9 +59,25 @@ class ColorAdapter(private val items: List<ListColor>, private val context: Cont
         holder.ll.setBackgroundColor(Color.parseColor(items[position].color))
 
         holder.ll?.setOnClickListener {
-//            showDialog()
-            Toast.makeText(context, holder.id.text, Toast.LENGTH_SHORT).show()
 
+            //            Toast.makeText(context, holder.id.text, Toast.LENGTH_SHORT).show()
+
+            var lifav =
+                ListFavourite(
+                    items[position].id,
+                    items[position].name,
+                    items[position].year,
+                    items[position].color,
+                    items[position].pantone_value
+                )
+
+            val intent = Intent("custom-message")
+            intent.putExtra("itemId", lifav.id)
+            intent.putExtra("itemName", lifav.name)
+            intent.putExtra("itemYear", lifav.year)
+            intent.putExtra("itemColor", lifav.color)
+            intent.putExtra("itemPantone", lifav.pantone_value)
+            LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
         }
 
 
